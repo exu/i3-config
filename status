@@ -1,0 +1,69 @@
+general {
+    colors = true
+    interval = 1
+}
+
+# order += "ipv6"
+order += "disk /"
+order += "disk /home"
+order += "run_watch DHCP"
+# order += "run_watch KGo"
+order += "wireless wlp2s0"
+order += "ethernet enp0s25"
+order += "battery 1"
+order += "load"
+order += "volume master"
+order += "tztime local"
+
+volume master {
+        format = "♪: %volume"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+wireless wlp2s0 {
+        format_up = "W: %ip (%essid, %quality|%bitrate)"
+        format_down = "W"
+}
+
+ethernet enp0s25 {
+        # if you use %speed, i3status requires the cap_net_admin capability
+        format_up = "E: %ip (%speed)"
+        format_down = "E"
+}
+
+battery 1 {
+        format = "%status %percentage %remaining"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPN {
+        pidfile = "/var/run/vpnc/pid"
+}
+
+run_watch KGo {
+        pidfile = "/tmp/gokasia.pid-9988"
+}
+
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
+
+load {
+        format = "load %1min %5min %15min"
+}
+
+disk "/" {
+        format = "/ %free"
+}
+
+disk "/home" {
+        format = "/home %free"
+}

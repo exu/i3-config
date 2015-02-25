@@ -1,0 +1,14 @@
+displayCount=$((`xrandr -q|grep " connected"|wc -l`))
+
+xrandr --auto
+
+if [ $displayCount -eq 3 ]; then
+    echo "Enabling monitor dock"
+    xrandr --auto --output HDMI1 --right-of HDMI2 --rotate left --output HDMI2 --right-of eDP1 --rotate left
+elif [ $displayCount -eq 2 ]; then
+    echo "Enabling one display"
+    xrandr --auto --output HDMI1 --rotate normal --right-of eDP1 --output HDMI2 --left-of eDP1 --rotate normal
+fi
+
+sleep 1
+xset r rate 300 50
