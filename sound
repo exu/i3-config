@@ -2,5 +2,5 @@
 
 sink=$(pactl list short sinks|grep RUNNING|cut -d"	" -f 1)
 echo "$sink $1" > ~/.i3/sound.log
-echo "pactl set-sink-volume $sink -- $1"
-pactl set-sink-volume $sink -- $1
+echo "pactl set-sink-volume $sink $1"
+pactl set-sink-volume $sink $1
