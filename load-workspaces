@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+for i in $(seq 1 10); do
+    i3-msg "workspace 1; append_layout $HOME/.i3/workspaces/ws-$i.json"
+done

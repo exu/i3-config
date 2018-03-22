@@ -57,13 +57,19 @@ tztime local {
 }
 
 load {
-        format = "load %1min %5min %15min"
+        format = "L: %1min %15min"
 }
 
 disk "/" {
+        low_threshold=2
         format = "/ %free"
+        threshold_type = "gbytes_avail"
+        prefix_type = "binary"
 }
 
 disk "/home" {
+        low_threshold=2
         format = "/home %free"
+        threshold_type = "gbytes_avail"
+        prefix_type = "binary"
 }

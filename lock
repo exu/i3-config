@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# all credit and glory for this awesome script to
+# github.com/savoca
+# reddit.com/u/wontonspecial
+#
+# https://github.com/savoca/dotfiles/blob/dark/.bin/scripts/lock.sh
+# https://www.reddit.com/r/unixporn/comments/3358vu/i3lock_unixpornworthy_lock_screen/
+tmpbg="/home/exu/.i3/lock2.png"
+# tmpbg="$(mktemp /tmp/lock.sh-XXXXXXXXXX.png)"
+# icon="/home/exu/.i3/lock.png"
+# scrot $tmpbg
+# convert $tmpbg -scale 25% -scale 400% -fill black -colorize 25% $tmpbg
+# [[ -f $icon ]] && convert $tmpbg $icon -gravity center -composite -matte $tmpbg
+#dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+
+# Pause and unpause dunst. From the manual dunst(1):
+
+# When paused dunst will not display any notifications but keep all notifications
+# in a queue.  This can for example be wrapped around a screen locker (i3lock, slock)
+# to prevent flickering of notifications through the lock and
+# to read all missed notifications after returning to the computer.
+i3lock --nofork -i $tmpbg
+#rm $tmpbg
