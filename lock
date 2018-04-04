@@ -6,7 +6,7 @@
 #
 # https://github.com/savoca/dotfiles/blob/dark/.bin/scripts/lock.sh
 # https://www.reddit.com/r/unixporn/comments/3358vu/i3lock_unixpornworthy_lock_screen/
-tmpbg="/home/exu/.i3/lock2.png"
+tmpbg="/home/exu/.i3/lock6.png"
 # tmpbg="$(mktemp /tmp/lock.sh-XXXXXXXXXX.png)"
 # icon="/home/exu/.i3/lock.png"
 # scrot $tmpbg
@@ -20,5 +20,5 @@ tmpbg="/home/exu/.i3/lock2.png"
 # in a queue.  This can for example be wrapped around a screen locker (i3lock, slock)
 # to prevent flickering of notifications through the lock and
 # to read all missed notifications after returning to the computer.
-i3lock --nofork -i $tmpbg
+i3lock  -c 000000 --nofork -f -t -i $tmpbg
 #rm $tmpbg
