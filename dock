@@ -3,21 +3,23 @@ displayCount=$((`xrandr -q|grep " connected"|wc -l`))
 
 xrandr --auto
 
+OUT0=eDP-1
+OUT1=DVI-I-3-2
+OUT2=DVI-I-2-1
+
 if [ $displayCount -eq 3 ]; then
-    echo "Enabling monitor dock"
-    #xrandr --auto --output HDMI1 --left-of eDP1 --rotate left --output HDMI2 --left-of HDMI1 --rotate left
-    xrandr --auto --output HDMI1 --primary --mode 1920x1200 --left-of HDMI2 --rotate left --output HDMI2 --mode 1920x1200 --left-of eDP1 --rotate normal
-    xrandr --output HDMI2 --primary
+    notify-send "Enabling monitor dock mode 3 displays"
+    xrandr --auto --output $OUT1 --primary --mode 1920x1080 --right-of $OUT0 --rotate normal --output $OUT2 --mode 1920x1080 --right-of $OUT1 --rotate normal
+    xrandr --output $OUT2 --primary
 elif [ $displayCount -eq 2 ]; then
-    echo "Enabling one display"
-    xrandr --auto --output HDMI2 --mode 1920x1080 --rotate normal --above eDP1 --scale 1x1
-    # xrandr --auto --output HDMI1 --mode 1920x1200 --rotate normal --above eDP1 --output HDMI2 --mode 1920x1200 --rotate normal --above eDP1
-    xrandr --output HDMI1 --primary
+    notify-send "Enabling two display, external above internal"
+    xrandr --auto --output $OUT2 --mode 1920x1080 --rotate normal --above $OUT0 --scale 1x1
+    xrandr --output $OUT2 --primary
 elif [ $displayCount -eq 1 ]; then
-    xrandr --output eDP1 --primary
+    xrandr --output $OUT0 --primary
 fi
 
 sleep 1
-
+notify-send "Setting rate 300 50"
 xset r rate 300 50
 killall -USR1 i3status

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+FILE=~/.xautolocked
+
+if [ -r "$FILE" ]; then
+    xautolock -disable
+    notify-send "Autlock disabled"
+    rm $FILE
+else
+    xautolock -enable
+    notify-send "Autlock enabled"
+    echo 1 > $FILE
+fi

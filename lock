@@ -6,7 +6,7 @@
 #
 # https://github.com/savoca/dotfiles/blob/dark/.bin/scripts/lock.sh
 # https://www.reddit.com/r/unixporn/comments/3358vu/i3lock_unixpornworthy_lock_screen/
-tmpbg="/home/exu/.i3/lock6.png"
+tmpbg=~/.i3/lock6.png
 # tmpbg="$(mktemp /tmp/lock.sh-XXXXXXXXXX.png)"
 # icon="/home/exu/.i3/lock.png"
 # scrot $tmpbg

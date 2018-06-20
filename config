@@ -2,16 +2,16 @@
 set $mod Mod4
 set $alt Mod1
 
-set $display1 eDP1
-set $display2 HDMI2
-set $display3 HDMI1
+
+set $display1 eDP-1
+set $display2 DVI-I-2-1
+set $display3 DVI-I-3-2
+
+
+# set $display2 HDMI-1
+# set $display3 HDMI-1
 
 for_window [class="^.*"] border pixel 1
-
-gaps inner 12
-gaps outer 0
-
-smart_borders on
 
 set $ws1 1
 set $ws2 2
@@ -24,34 +24,34 @@ set $ws8 8
 set $ws9 9
 set $ws10 10
 
-workspace $ws1 output $display2
-workspace $ws2 output $display2
-workspace $ws3 output $display3
-workspace $ws4 output $display3
+workspace $ws1 output $display1
+workspace $ws2 output $display1
+workspace $ws3 output $display2
+workspace $ws4 output $display2
 workspace $ws5 output $display2
-workspace $ws6 output $display3
-workspace $ws7 output $display1
-workspace $ws8 output $display1
+workspace $ws6 output $display2
+workspace $ws7 output $display2
+workspace $ws8 output $display2
 workspace $ws9 output $display1
 workspace $ws10 output $display1
 
 
 
-font pango:Roboto Mono Thin 8
+# font pango:Roboto Mono Thin 8
 floating_modifier $mod
 exec --no-startup-id xrandr --auto
 focus_follows_mouse false
 
 bindsym $mod+F12 exec --no-startup-id ~/.i3/dock
-bindsym $mod+F11 exec --no-startup-id xrandr --auto --output HDMI1  --rotate normal --right-of eDP1 --same-as eDP1 --output HDMI2 --left-of eDP1 --rotate normal --same-as eDP1
+bindsym $mod+F11 exec --no-startup-id xrandr --auto --output $display2  --rotate normal --right-of $display1 --same-as $display1 --output $display3 --left-of $display1 --rotate normal --same-as $display1
 bindsym $mod+Shift+F12 exec xrandr --auto
 bindsym $mod+Shift+F11 exec xrandr -s 0
 
-bindsym $mod+F10 exec xautolock -toggle
+bindsym $mod+F10 exec ~/.i3/autolock
 
 # start a terminal
-bindsym $mod+Return exec urxvt
-bindsym $mod+Shift+Return exec gnome-terminal
+bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Shift+Return exec urxvt
 bindsym $mod+l exec --no-startup-id ~/.i3/lock, mode "default"
 
 # kill focused window
@@ -62,9 +62,9 @@ bindsym $alt+F4 kill
 # bindsym $alt+Tab exec rofi -show run
 
 # bindsym $mod+d exec i3-dmenu-desktop
+# bindsym $mod+d exec --no-startup-id dmenu_run
 # rofi https://davedavenport.github.io/rofi/
 bindsym $mod+d exec rofi -show run -terminal urxvt
-bindsym $mod+grave exec rofi -show run
 bindsym $alt+Tab exec rofi -show window
 
 #bindsym Print exec gnome-screenshot --interactive
@@ -78,7 +78,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl mute
 
 bindsym $mod+equal exec --no-startup-id ~/.i3/sound "+10%"
 bindsym $mod+minus exec --no-startup-id ~/.i3/sound "-10%"
-bindsym $mod+0 exec --no-startup-id ~/bin/scripts/spotify_control play
+# bindsym $mod+0 exec --no-startup-id ~/bin/scripts/spotify_control play
 
 
 
@@ -162,7 +162,7 @@ bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
-# bindsym $mod+0 workspace $ws10
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -184,8 +184,6 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 bindsym $mod+Shift+w exec --no-startup-id /home/exu/bin/scripts/windowprops.sh
-
-bindsym $mod+Home exec gksudo /home/exu/bin/scripts/net_restart
 
 
 
@@ -210,8 +208,10 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-set $power System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $power System (BackSpace) exit session (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$power" {
+    bindsym BackSpace exec --no-startup-id i3-msg exit
+    bindsym l exec --no-startup-id ~/.i3/i3exit lock, mode "default"
     bindsym l exec --no-startup-id ~/.i3/i3exit lock, mode "default"
     bindsym e exec --no-startup-id ~/.i3/i3exit logout, mode "default"
     bindsym s exec --no-startup-id ~/.i3/i3exit suspend, mode "default"
@@ -223,7 +223,7 @@ mode "$power" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+End mode "$power"
+bindsym $mod+$alt+BackSpace mode "$power"
 
 
 
@@ -246,10 +246,9 @@ set $apps Apps: (e) Emacs, (x) Code (p) PHPStorm, (o) Oni (m) Music, (v) VLC, (n
 mode "$apps" {
     bindsym e exec --no-startup-id emacs, mode "default"
     #bindsym p exec --no-startup-id /home/exu/appz/Phpstorm/bin/phpstorm.sh, mode "default"
-    bindsym i exec --no-startup-id /home/exu/appz/idea-IU-173.4548.28/bin/idea.sh, mode "default"
-    bindsym x exec --no-startup-id /home/exu/appz/code/code, mode "default"
-    bindsym o exec --no-startup-id /home/exu/appz/Oni-0.2.21-x64-linux/oni, mode "default"
-    bindsym p exec --no-startup-id /home/exu/appz/Postman/Postman, mode "default"
+    bindsym i exec --no-startup-id ~/appz/intellij/bin/idea.sh, mode "default"
+    bindsym x exec --no-startup-id code, mode "default"
+    bindsym p exec --no-startup-id /home/exu/appz/postman/Postman, mode "default"
     bindsym m exec --no-startup-id spotify, mode "default"
     bindsym v exec --no-startup-id vlc, mode "default"
     bindsym n exec --no-startup-id nautilus, mode "default"
@@ -283,12 +282,16 @@ for_window [class="feh"] floating enable, border normal
 for_window [class="Emacs" instance="Ediff"] floating enable, border normal
 for_window [class="chromium" instance="chromium"] floating enable, border normal
 for_window [class="Gnome-control-center"] floating enable, border none
+for_window [window_role="pop-up"] floating enable
+
+for_window [class="albert"] border pixel 0
 
 # assign [class="Google-chrome|Chromium-browser" instance="^crx_"] $WS10
 # assign [class="Vlc|Rhythmbox"] $WS8
 assign [class="HipChat|Skype"] $WS9
 assign [class="chromium" instance="chromium"] $WS3
 assign [class="^$" instance="^$" title="Katarzyna Zdanowska"] $WS9
+
 # assign [class="Emacs"] $WS3
 
 
@@ -305,65 +308,40 @@ assign [class="^$" instance="^$" title="Katarzyna Zdanowska"] $WS9
 # DIVIDER COLOR #BDBDBD
 
 set $transparent #00000000
+
 bar {
-    i3bar_command i3bar -t
-    status_command i3status -c ~/.i3/status
-    # status_command ~/bin/goblocks
     tray_output $display1
+    i3bar_command i3bar
+    status_command i3status -c ~/.i3/status.conf
 
     colors {
-        background #00000055
+        background #000000
         statusline #FFFFFF
         separator #101010
         focused_workspace  #512DA8 #512DA8 #ffffff
         active_workspace   #333333 #5f676a #ffffff
         inactive_workspace #222222 #111111 #666666
         urgent_workspace   #D1C4E9 #D1C4E9 #ffffff
-        binding_mode       #FF4081 #FF4081 #ffffff
+        binding_mode       #FF4081 #FF4081 #000000
     }
 }
 
+
+
+
+
 # Autostart
-# exec --no-startup-id compton -b
-exec --no-startup-id compton -cCGb --backend glx --vsync opengl
+# exec --no-startup-id compton -cCGb --backend glx --vsync opengl
 # backgrouds
-exec --no-startup-id nitrogen --restore
 exec --no-startup-id pactl set-sink-volume 1 50%
 exec --no-startup-id xset r rate 300 50
-
-# toshiba touchpad one finger scroll
-exec --no-startup-id xinput set-int-prop "AlpsPS/2 ALPS DualPoint TouchPad" "Synaptics Edges" 32 0 0 0 0
-exec --no-startup-id xinput set-int-prop "AlpsPS/2 ALPS DualPoint TouchPad" "Synaptics Tap Action" 8 0 0 0 0 0 0 0
-exec --no-startup-id xinput set-int-prop "AlpsPS/2 ALPS DualPoint TouchPad" "Synaptics Edge Scrolling" 8 0 0 0
-exec --no-startup-id xinput set-int-prop "AlpsPS/2 ALPS DualPoint TouchPad" "Device Enabled" 8 0
-
-# toshiba trackpoint speed up
-exec --no-startup-id xinput set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Accel Profile" 2
-# exec --no-startup-id xinput set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Accel Constant Deceleration" 3.0
-exec --no-startup-id xinput set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Accel Adaptive Deceleration" 6.0
-
-
-# exec --no-startup-id xfce4-panel --disable-wm-check
-# exec --no-startup-id xfsettingsd
-
-# exec --no-startup-id wicd-gtk &
 exec --no-startup-id nm-applet
 exec --no-startup-id pnmixer
-exec --no-startup-id /usr/bin/dropbox &
-exec --no-startup-id ~/bin/scripts/touchpad_enable &
-exec --no-startup-id ~/bin/scripts/ssh_perf_tunnels
-# exec --no-startup-id ~/bin/scripts/gdoc &
-
-# exec i3-msg 'workspace 8; exec deadbeef'
-# exec --no-startup-id sleep 1
-# exec i3-msg 'workspace 3; layout tabbed; exec urxvt'
-# exec --no-startup-id sleep 1
-# exec i3-msg 'workspace 2; layout tabbed; exec emacs&'
-# exec --no-startup-id sleep 1
-exec i3-msg 'workspace 1; exec google-chrome-beta'
-
-
-# exec --no-startup-id i3-msg 'workspace 2; layout tabbed; exec /home/exu/appz/intellij/bin/idea.sh'
-# exec --no-startup-id sleep 1
+exec --no-startup-id /usr/bin/dropbox start &
 exec --no-startup-id ~/.i3/dock &
 exec --no-startup-id xautolock -time 1 -locker ~/.i3/lock &
+exec --no-startup-id nitrogen --restore
+
+exec --no-startup-id i3-msg 'workspace 1; exec google-chrome'
+exec --no-startup-id i3-msg 'workspace 3; exec code'
+exec --no-startup-id i3-msg 'workspace 4; exec emacscode'
