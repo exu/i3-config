@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+displayCount=$((`xrandr -q|grep " connected"|wc -l`))
+
+xrandr --auto
+
+if [ $displayCount -eq 3 ]; then
+    notify-send "Enabling monitor dock"
+    #xrandr --auto --output HDMI1 --left-of eDP1 --rotate left --output HDMI2 --left-of HDMI1 --rotate left
+    xrandr --auto --output HDMI1 --primary --mode 1920x1200 --left-of HDMI2 --rotate left --output HDMI2 --mode 1920x1200 --left-of eDP1 --rotate normal
+    xrandr --output HDMI2 --primary
+elif [ $displayCount -eq 2 ]; then
+
+    notify-send "Enabling one display"
+    xrandr --auto --output HDMI2 --mode 1920x1080 --rotate normal --above eDP1 --scale 1x1
+    # xrandr --auto --output HDMI1 --mode 1920x1200 --rotate normal --above eDP1 --output HDMI2 --mode 1920x1200 --rotate normal --above eDP1
+    xrandr --output HDMI1 --primary
+elif [ $displayCount -eq 1 ]; then
+    notify-send "one display mode"
+    xrandr --output eDP1 --primary
+fi
+
+sleep 1
+
+xset r rate 300 50
+killall -USR1 i3status
